@@ -1,0 +1,1 @@
+mvn install && java $JAVA_OPTS -cp target/classes:target/dependency/* com.example.Main
