@@ -1,11 +1,13 @@
 package com.qos.filters;
 
+import com.qos.models.User;
+import com.qos.services.LoginService;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AuthFilter implements javax.servlet.Filter {
-  private FilterConfig filterConfig;
+  public static final String CURRENT_USER_IN_REQUEST = "current_user";
 
   public void doFilter(final ServletRequest givenRequest,
                        final ServletResponse givenResponse,
@@ -16,28 +18,27 @@ public class AuthFilter implements javax.servlet.Filter {
     HttpServletResponse response = (HttpServletResponse) givenResponse;
     String requestURI = request.getRequestURI();
     
+    User u = getCurrentUser(request);
+    
     if (requestURI.startsWith("/admin/")) {
-        if(!checkIfAdmin(request)) {
+        if(u.getPrivilege() != User.Privilege.ADMIN) {
             forbiddenResponse(response);
 
         }
     } else if (requestURI.startsWith("/operator/")){
-        if(!checkIfOperator(request)) {
+        if(u.getPrivilege() != User.Privilege.OPERATOR) {
             forbiddenResponse(response);
         }
     }
     
     chain.doFilter(givenRequest, response);
   }
+  
+  private User getCurrentUser(HttpServletRequest request) {
+      String email = (String) request.getSession().getAttribute(CURRENT_USER_IN_REQUEST);
+      return new LoginService().getUser(email);
+  }
 
-  private Boolean checkIfAdmin(HttpServletRequest request) {
-      return false;
-  }
-  
-  private Boolean checkIfOperator(HttpServletRequest request) {
-      return false;
-  }
-  
   private void forbiddenResponse(HttpServletResponse response) 
           throws java.io.IOException {
     ServletOutputStream out = response.getOutputStream();
@@ -47,6 +48,7 @@ public class AuthFilter implements javax.servlet.Filter {
     out.close();
   }
 
+  private FilterConfig filterConfig;
   public void init(final FilterConfig filterConfig) {
     this.filterConfig = filterConfig;
   }

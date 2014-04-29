@@ -104,24 +104,24 @@
 <div class="container" id="getting-started">
 <div class="row">
 <div class="span8 offset2">
-<% Boolean error = request.getAttribute("error") == null ? false : (Boolean) request.getAttribute("error"); %>
+    <% Boolean error = ("true".equals(request.getParameter("error"))); %>
 <% if(error) { %>
-<h1 class="alert alert-error">Problème de connexion !</h1>
+<h1 class="alert alert-error">Probleme de connexion !</h1>
 <% } %>
 
 
 <div class="page-header">
-  <h1>Veuilez vous authentifier</h1>
+  <h1>Veuillez vous authentifier</h1>
 </div>
 </div>
 </div>
   <form accept-charset="UTF-8" action="/login" class=" form-vertical" id="new_admin" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" />
     <input name="authenticity_token" type="hidden" value="2c2a1ZnGGXwFI7+VxKKtvExqRPjmBCl7gU6lPbDYzc4=" /></div>
     <p>
-    <div class="control-group"><label class="control-label" for="admin_email">Email</label><div class="controls"><input id="login" name="admin[login]" size="30" type="email" /></div></div>
+    <div class="control-group"><label class="control-label" for="admin_email">Email</label><div class="controls"><input id="login" name="login" size="30" type="email" /></div></div>
   </p>
   <p>
-      <div class="control-group"><label class="control-label" for="admin_password">Mot de passe</label><div class="controls"><input id="admin_password" name="admin[password]" size="30" type="password" /></div></div>
+      <div class="control-group"><label class="control-label" for="admin_password">Mot de passe</label><div class="controls"><input id="admin_password" name="password" size="30" type="password" /></div></div>
   </p>
     <div><input class="btn btn-success" name="commit" type="submit" value="Connexion" /></div>
   </form>
