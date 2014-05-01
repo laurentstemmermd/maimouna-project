@@ -11,7 +11,7 @@ public class LoginService {
     static {
         Map<String, User> u =  new HashMap();
         u.put("admin@test.com", new User("admin@test.com", "admin123", User.Privilege.ADMIN));
-        u.put("operator@test.com", new User("operator@test.com", "operator123", User.Privilege.ADMIN));
+        u.put("operator@test.com", new User("operator@test.com", "operator123", User.Privilege.OPERATOR));
         users = Collections.unmodifiableMap(u);
     }
     

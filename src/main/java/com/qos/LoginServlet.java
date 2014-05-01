@@ -29,5 +29,23 @@ public class LoginServlet extends HttpServlet {
             }
         }
     }
+    
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        User u = AuthFilter.getCurrentUser(request);
+        
+        
+        if (u == null) {
+            System.out.println(u + "IS NULL so we forward");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
+            if(u.getPrivilege() == User.Privilege.ADMIN) {
+                response.sendRedirect("/admin/index");
+            } else {
+                response.sendRedirect("/operator/index");
+            }
+        }
+    }
 
 }

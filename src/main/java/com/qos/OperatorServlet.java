@@ -1,21 +1,26 @@
 package com.qos;
 
-import com.qos.services.LoginService;
+import com.qos.models.Site;
+import com.qos.services.SiteService;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class AdminServlet extends HttpServlet {
+public class OperatorServlet extends HttpServlet {
     
-    private final LoginService loginService = new LoginService();
+    private final SiteService siteService = new SiteService();
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/views/admin/index.jsp").forward(request, response);
+        
+        List<Site> sites = siteService.getAllSites();
+        request.setAttribute("sites", sites);
+        request.getRequestDispatcher("/WEB-INF/views/operator/index.jsp").forward(request, response);
 
     }
 

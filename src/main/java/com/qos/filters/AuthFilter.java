@@ -21,12 +21,12 @@ public class AuthFilter implements javax.servlet.Filter {
     User u = getCurrentUser(request);
     
     if (requestURI.startsWith("/admin/")) {
-        if(u.getPrivilege() != User.Privilege.ADMIN) {
+        if(u == null || u.getPrivilege() != User.Privilege.ADMIN) {
             forbiddenResponse(response);
 
         }
     } else if (requestURI.startsWith("/operator/")){
-        if(u.getPrivilege() != User.Privilege.OPERATOR) {
+        if(u == null || u.getPrivilege() != User.Privilege.OPERATOR) {
             forbiddenResponse(response);
         }
     }
@@ -34,7 +34,7 @@ public class AuthFilter implements javax.servlet.Filter {
     chain.doFilter(givenRequest, response);
   }
   
-  private User getCurrentUser(HttpServletRequest request) {
+  public static User getCurrentUser(HttpServletRequest request) {
       String email = (String) request.getSession().getAttribute(CURRENT_USER_IN_REQUEST);
       return new LoginService().getUser(email);
   }

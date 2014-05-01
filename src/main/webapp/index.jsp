@@ -3,17 +3,13 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Embedded Jetty Template</title>
+  <title>QOS Tracker</title>
 
   <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link href="//netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet">
 
-  <!--
-  IMPORTANT:
-  This is Heroku specific styling. Remove to customize.
-  -->
   <link href="http://heroku.github.com/template-app-bootstrap/heroku.css" rel="stylesheet">
   <style type="text/css">
     .instructions {
@@ -115,7 +111,7 @@
 </div>
 </div>
 </div>
-  <form accept-charset="UTF-8" action="/login" class=" form-vertical" id="new_admin" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" />
+  <form accept-charset="UTF-8" action="/" class=" form-vertical" id="new_admin" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" />
     <input name="authenticity_token" type="hidden" value="2c2a1ZnGGXwFI7+VxKKtvExqRPjmBCl7gU6lPbDYzc4=" /></div>
     <p>
     <div class="control-group"><label class="control-label" for="admin_email">Email</label><div class="controls"><input id="login" name="login" size="30" type="email" /></div></div>
