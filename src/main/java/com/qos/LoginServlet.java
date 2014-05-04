@@ -10,14 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class LoginServlet extends HttpServlet {
-    
+
     private final LoginService loginService = new LoginService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User u = loginService.login(request.getParameter("login"), request.getParameter("password"));
-        
+
         if (u == null) {
             response.sendRedirect("/?error=true");
         } else {
@@ -29,15 +29,14 @@ public class LoginServlet extends HttpServlet {
             }
         }
     }
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User u = AuthFilter.getCurrentUser(request);
-        
-        
+
+
         if (u == null) {
-            System.out.println(u + "IS NULL so we forward");
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } else {
             if(u.getPrivilege() == User.Privilege.ADMIN) {

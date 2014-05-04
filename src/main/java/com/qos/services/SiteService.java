@@ -32,4 +32,9 @@ public class SiteService {
         }
         return null;
     }
+    
+    public List getLogs() {
+        
+        return null;
+    }
 }

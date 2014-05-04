@@ -8,14 +8,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title>Operator Page</title>
+        <title>Site</title>
         <link href="//netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet">
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
         <link href="http://heroku.github.com/template-app-bootstrap/heroku.css" rel="stylesheet">
         
     </head>
     <body>
-        <h1>Bienvenue <%=request.getSession().getAttribute(com.qos.filters.AuthFilter.CURRENT_USER_IN_REQUEST)%></h1>
+        <h1>Le site est ${name}</h1>
         
         <table class="table table-striped">
 		<thead>
@@ -28,22 +28,14 @@
                     </tr>
 		</thead>
 		<tbody>
-                    <c:forEach items="${sites}" var="s">
                      <tr>
-                            <td><c:out value="${s.name}"/></td>
-                            <td><c:out value="${s.path}"/></td>
-                            <td><c:out value="${s.parserType}"/></td>
-                            <td>
-                                <a class="btn btn-success" href="/operator/site/logs?name=${s.name}"><i class="icon-signal"></i> Voir les logs</a>
-                            </td>
-                            <td>
-                                <a class="btn btn-success" href="/operator/site/stats?name=${s.name}"><i class="glyphicon glyphicon-stats"></i> Voir les statistiques</a>
-                            </td>
-                        </tr>
-                    
-                    </c:forEach>
-
+                        <td><c:out value="${site.name}"/></td>
+                        <td><c:out value="${site.path}"/></td>
+                        <td><c:out value="${site.parserType}"/></td>
+                    </tr>
 		</tbody>
 	</table>
+                    
+        <jsp:include page="log.jsp" />
     </body>
 </html>
