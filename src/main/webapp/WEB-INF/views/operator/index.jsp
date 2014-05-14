@@ -34,10 +34,7 @@
                             <td><c:out value="${s.path}"/></td>
                             <td><c:out value="${s.parserType}"/></td>
                             <td>
-                                <a class="btn btn-success" href="/operator/site/logs?name=${s.name}"><i class="icon-signal"></i> Voir les logs</a>
-                            </td>
-                            <td>
-                                <a class="btn btn-success" href="/operator/site/stats?name=${s.name}"><i class="glyphicon glyphicon-stats"></i> Voir les statistiques</a>
+                                <a class="btn btn-success" href="/operator/site/detail?name=${s.name}"><i class="icon-eye"></i> Voir les détails</a>
                             </td>
                         </tr>
                     

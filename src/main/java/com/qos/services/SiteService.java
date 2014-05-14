@@ -16,8 +16,8 @@ public class SiteService {
     
     static {
         List<Site> s =  new ArrayList<Site>();
-        s.add(new Site("Orange site", "admin123", Parser.CSV));
-        s.add(new Site("SFR Site", "operator123", Parser.XML));
+        s.add(new Site("Orange", "/tmp/log_orange.csv", Parser.CSV));
+        s.add(new Site("SFR", "/tmp/log_sfr.csv", Parser.XML));
         sites = Collections.unmodifiableList(s);
     }
     

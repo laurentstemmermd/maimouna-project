@@ -15,12 +15,11 @@
         
     </head>
     <body>
-        <h1>Le site est ${name}</h1>
+        <h1>Details du site ${site.name}</h1>
         
         <table class="table table-striped">
 		<thead>
                     <tr>
-                        <th>Nom du site</th>
                         <th>Chemin des logs</th>
                         <th>Type de log</th>
                         <th></th>
@@ -29,13 +28,13 @@
 		</thead>
 		<tbody>
                      <tr>
-                        <td><c:out value="${site.name}"/></td>
                         <td><c:out value="${site.path}"/></td>
                         <td><c:out value="${site.parserType}"/></td>
                     </tr>
 		</tbody>
 	</table>
                     
-        <jsp:include page="log.jsp" />
+        <jsp:include page="logs.jsp" />
+        <jsp:include page="stats.jsp" />
     </body>
 </html>

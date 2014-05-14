@@ -1,6 +1,8 @@
 package com.qos;
 
+import com.qos.models.Log;
 import com.qos.models.Site;
+import com.qos.services.LogService;
 import com.qos.services.SiteService;
 import java.io.IOException;
 import java.util.List;
@@ -13,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 public class OperatorServlet extends HttpServlet {
 
     private final SiteService siteService = new SiteService();
+    private final LogService logService = new LogService();
+    
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -27,14 +31,11 @@ public class OperatorServlet extends HttpServlet {
         } else if (requestURI.startsWith("/operator/site")) {
             String siteName = request.getParameter("name");
             Site site = siteService.getSite(siteName);
+            List<Log> logs = logService.getLogs(siteName);
             request.setAttribute("site", site);
+            request.setAttribute("logs", logs);
             
-            if (requestURI.startsWith("/operator/site/logs")) {
-                request.setAttribute("sub_page", "log.jsp");
-                request.getRequestDispatcher("/WEB-INF/views/site/index.jsp").forward(request, response);
-                return;
-            } else if (requestURI.startsWith("/operator/site/stats")) {
-                request.setAttribute("sub_page", "site.jsp");
+            if (requestURI.startsWith("/operator/site/detail")) {
                 request.getRequestDispatcher("/WEB-INF/views/site/index.jsp").forward(request, response);
                 return;
             }
