@@ -1,58 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-    <filter>
-        <filter-name>auth</filter-name>
-        <filter-class>com.qos.filters.AuthFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>auth</filter-name>
-        <url-pattern>*</url-pattern>
-    </filter-mapping>
-    <servlet>
-        <servlet-name>login</servlet-name>
-        <servlet-class>com.qos.LoginServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>login</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>admin</servlet-name>
-        <servlet-class>com.qos.AdminServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>admin</servlet-name>
-        <url-pattern>/admin/*</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>operator</servlet-name>
-        <servlet-class>com.qos.OperatorServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>operator</servlet-name>
-        <url-pattern>/operator/*</url-pattern>
-    </servlet-mapping>
-    <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list>
-    <error-page>
-        <!-- Missing login -->
-        <error-code>401</error-code>
-        <location>/general-error.html</location>
-    </error-page>
-    <error-page>
-        <!-- Forbidden directory listing -->
-        <error-code>403</error-code>
-        <location>/general-error.html</location>
-    </error-page>
-    <error-page>
-        <!-- Uncaught exception -->
-        <error-code>500</error-code>
-        <location>/general-error.html</location>
-    </error-page>
-    <error-page>
-        <!-- Unsupported servlet method -->
-        <error-code>503</error-code>
-        <location>/general-error.html</location>
-    </error-page>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<!-- The definition of the Root Spring Container shared by all Servlets 
+		and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+	</context-param>
+
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<filter>
+		<filter-name>sitemesh</filter-name>
+		<filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>sitemesh</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- Processes application requests -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
 </web-app>
