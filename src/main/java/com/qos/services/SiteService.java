@@ -5,11 +5,13 @@ import com.qos.models.Site;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author stemlaur
  */
+@Component
 public class SiteService {
     
     private static final List<Site> sites;

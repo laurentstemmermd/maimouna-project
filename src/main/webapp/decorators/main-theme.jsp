@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><decorator:title default="Default title" /></title>
+<title><decorator:title default="Default title" /></title>a
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/resources/css/main.css" rel="stylesheet" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -27,10 +27,10 @@
 			</ul>
 			<div class="navbar-text pull-right">
 				<c:choose>
-                                    <c:when test="${contains}">
-                                            <jsp:include page="_greetings.jsp" >
-                                                    <jsp:param value="${cookie.user.value}" name="user"/>
-                                            </jsp:include>
+					<c:when test="${cookie.user != null}">
+                                        <jsp:include page="_greetings.jsp" >
+                                                <jsp:param value="${cookie.user.value}" name="user"/>
+                                        </jsp:include>
                                     </c:when>
                                     <c:otherwise>
                                             <jsp:include page="_login.jsp" />
@@ -42,6 +42,6 @@
 	<decorator:body />
 	<hr />
 	<h1>Footer</h1>
-	<a class="navbar-brand" href="/logout">Déconnexion</a>
+	<a class="navbar-brand" href="<c:url value="/logout" />">Déconnexion</a>
 </body>
 </html>
