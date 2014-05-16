@@ -31,7 +31,7 @@ public class SiteDao {
 
 	public final Site getSite(String name) {
 
-		final String sql = "SELECT PATH, TYPE FROM HELLO WHERE NAME = ?";
+		final String sql = "SELECT PATH, TYPE FROM SITES WHERE NAME = ?";
 
 		try {
 			Connection c = dataSource.getConnection();
