@@ -2,19 +2,24 @@ package com.qos.services;
 
 import com.qos.models.Parser;
 import com.qos.models.Site;
+import com.qos.services.daos.SiteDao;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.springframework.stereotype.Component;
+import javax.annotation.Resource;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author stemlaur
  */
-@Component
+@Service
 public class SiteService {
     
     private static final List<Site> sites;
+    
+    @Resource
+    private SiteDao siteDao;
     
     static {
         List<Site> s =  new ArrayList<Site>();
@@ -28,11 +33,7 @@ public class SiteService {
     }
     
     public Site getSite(String name) {
-        for(Site s : sites) {
-            if(s.getName().equals(name))
-                return s;
-        }
-        return null;
+        return siteDao.getSite(name);
     }
     
     public List getLogs() {

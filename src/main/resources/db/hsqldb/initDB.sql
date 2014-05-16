@@ -1,0 +1,16 @@
+DROP TABLE sites IF EXISTS;
+DROP TABLE vets IF EXISTS;
+DROP TABLE specialties IF EXISTS;
+DROP TABLE visits IF EXISTS;
+DROP TABLE pets IF EXISTS;
+DROP TABLE types IF EXISTS;
+DROP TABLE owners IF EXISTS;
+
+
+CREATE TABLE sites (
+  id         INTEGER IDENTITY PRIMARY KEY,
+  name VARCHAR(30),
+  path VARCHAR(500),
+  type  VARCHAR(30)
+);
+CREATE INDEX sites_name ON sites (name);
