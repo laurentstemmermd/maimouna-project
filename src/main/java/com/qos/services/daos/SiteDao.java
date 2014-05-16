@@ -39,8 +39,8 @@ public class SiteDao {
 			ps.setString(1, name);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
-			final String path = rs.getString(2);
-			final String type = rs.getString(3);
+			final String path = rs.getString(1);
+			final String type = rs.getString(2);
 			ps.close();
 
 			return new Site(name, path, Parser.valueOf(type));
