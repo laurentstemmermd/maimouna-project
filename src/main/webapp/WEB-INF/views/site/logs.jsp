@@ -1,6 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div>
-    <h3>Les dernières alertes pour le site ${site.name}</h3>
+    <h3>Les dernières alertes</h3>
     
     <table class="table table-striped">
         <thead>

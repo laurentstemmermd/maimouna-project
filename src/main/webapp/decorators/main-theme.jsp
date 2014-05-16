@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><decorator:title default="Default title" /></title>a
+<title><decorator:title default="Default title" /></title>
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/resources/css/main.css" rel="stylesheet" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -18,12 +18,9 @@
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
 				<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">Brand</a>
+			<a class="navbar-brand" href="/">Quality of Service</a>
 		</div>
 		<div class="collapse navbar-collapse navbar-ex1-collapse">
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">Link</a></li>
-			</ul>
 			<div class="navbar-text pull-right">
 				<c:choose>
 					<c:when test="${cookie.user != null}">
@@ -38,9 +35,12 @@
 			</div>
 		</div>
 	</nav>
-	<decorator:body />
-	<hr />
-	<h1>Footer</h1>
-	<a class="navbar-brand" href="<c:url value="/logout" />">Déconnexion</a>
+        <div class="container" id="getting-started">
+            <decorator:body />
+        </div>
+        <div>
+	Projet fait par Maimouna, 2014
+        </div>
+            
 </body>
 </html>

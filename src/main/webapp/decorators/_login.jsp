@@ -8,5 +8,5 @@
 		<label class="sr-only" for="password">Password</label>
 		<input type="password" placeholder="Password" name="password" id="password" class="form-control input-sm" />
 	</div>
-	<button type="submit" class="btn btn-default btn-sm">Sign in</button>
+	<button type="submit" class="btn btn-default btn-sm">Sign in <span class="glyphicon glyphicon-log-in"></span></button>
 </form>
