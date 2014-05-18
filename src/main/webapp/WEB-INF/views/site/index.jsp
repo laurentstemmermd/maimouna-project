@@ -4,19 +4,35 @@
 
 <h1>Details du site ${site.name}</h1>
 
-<table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Chemin des logs</th>
-                <th>Type de log</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
+<table class="">
         <tbody>
              <tr>
-                <td><c:out value="${site.path}"/></td>
-                <td><c:out value="${site.parserType}"/></td>
+                <td>Nom :</td>
+                <td><c:out value="${site.name}"/></td>
+            </tr>
+             <tr>
+                <td>Hote :</td>
+                <td><c:out value="${site.host}"/></td>
+            </tr>
+             <tr>
+                <td>Chemin des logs :</td>
+                <td><c:out value="${site.logPath}"/></td>
+            </tr>
+             <tr>
+                <td>Type de log :</td>
+                <td><c:out value="${site.logType}"/></td>
+            </tr>
+             <tr>
+                <td>Type de connexion :</td>
+                <td><c:out value="${site.connectionType}"/></td>
+            </tr>
+             <tr>
+                <td>Utilisateur :</td>
+                <td><c:out value="${site.userName}"/></td>
+            </tr>
+             <tr>
+                <td>Mot de passe :</td>
+                <td>****************</td>
             </tr>
         </tbody>
 </table>

@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><decorator:title default="Default title" /></title>
+<title><decorator:title default="QOS Tracking" /></title>
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/resources/css/main.css" rel="stylesheet" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>

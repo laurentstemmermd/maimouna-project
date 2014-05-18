@@ -1,7 +1,6 @@
 package com.qos.controllers;
 
 import com.qos.models.User;
-import com.qos.services.LogService;
 import com.qos.services.LoginService;
 
 import javax.servlet.http.Cookie;
@@ -23,7 +22,6 @@ public class LoginController {
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
         
         private final LoginService loginService = new LoginService();
-        private final LogService logService = new LogService();
         
         private static Cookie getCookie(HttpServletRequest request, String name) {
             if (request.getCookies() != null) {

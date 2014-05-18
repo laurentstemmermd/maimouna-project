@@ -1,7 +1,6 @@
 package com.qos.controllers;
 
 import com.qos.models.Site;
-import com.qos.services.LogService;
 import com.qos.services.LoginService;
 import com.qos.services.daos.SiteDao;
 import java.util.List;
@@ -26,7 +25,6 @@ public class OperatorController {
         private final LoginService loginService = new LoginService();
         @Resource
         private SiteDao siteDao;
-        private final LogService logService = new LogService();
 
         @RequestMapping(value = "/operator/index", method = RequestMethod.GET)
 	public String operatorIndex(HttpServletRequest request, Model model) {

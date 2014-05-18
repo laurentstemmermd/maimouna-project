@@ -13,28 +13,46 @@ import org.joda.time.DateTime;
  * @author stemmer
  */
 public class Log {
-    
-    private final String message;
-    private final LogLevel level;
-    private final DateTime date;
-    
-    
-    public Log(LogLevel level, String message, DateTime date) {
-        this.message = message;
-        this.level = level;
-        this.date = date;
+
+    private final String service;
+    private final DateTime eventDate;
+    private final LogStatus status;
+    private final String attempt;
+    private final String statusInfo;
+
+
+    public Log(String service, DateTime eventDate, LogStatus status, String attempt, String statusInfo) {
+        this.service = service;
+        this.eventDate = eventDate;
+        this.status = status;
+        this.attempt = attempt;
+        this.statusInfo = statusInfo;
     }
 
-    public LogLevel getLevel() {
-        return level;
+    public String getService() {
+        return service;
     }
 
-    public String getMessage() {
-        return message;
+    public DateTime getEventDate() {
+        return eventDate;
     }
 
-    public String getDate() {
-        return date.toString("YYYYMMdd hh:mm:ss");
+    public String getAttempt() {
+        return attempt;
     }
     
+    public boolean isOk() {
+        return (status == LogStatus.OK);
+    }
+
+    public String getStatusInfo() {
+        return statusInfo;
+    }
+
+    public LogStatus getStatus() {
+        return status;
+    }
+    
+    
+
 }

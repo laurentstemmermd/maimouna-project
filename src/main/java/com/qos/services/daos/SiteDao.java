@@ -6,6 +6,7 @@
 
 package com.qos.services.daos;
 
+import com.qos.models.Connector;
 import com.qos.models.Parser;
 import com.qos.models.Site;
 import org.springframework.stereotype.Service;
@@ -31,14 +32,23 @@ public class SiteDao {
 	private DataSource dataSource;
 
         public final List<Site> getAllSites() {
-            final String sql = "SELECT NAME, PATH, TYPE FROM SITES";
+            final String sql = "SELECT ID, NAME, HOST, USERNAME, PASSWORD, LOG_PATH, LOG_TYPE, CONNECTION_TYPE FROM SITES";
             List<Site> result = new ArrayList<Site>();
             try {
                 Connection c = dataSource.getConnection();
                 PreparedStatement ps = c.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery();
                 while(rs.next())  {
-                    result.add(new Site(rs.getString(1), rs.getString(2), Parser.valueOf(rs.getString(3))));
+                    result.add(new Site(
+                            rs.getInt("ID"),
+                            rs.getString("NAME"), 
+                            rs.getString("HOST"), 
+                            rs.getString("USERNAME"), 
+                            rs.getString("PASSWORD"), 
+                            rs.getString("LOG_PATH"),  
+                            Parser.valueOf(rs.getString("LOG_TYPE")),  
+                            Connector.valueOf(rs.getString("CONNECTION_TYPE"))
+                        ));
                 }
                 rs.close();
                 ps.close();
@@ -52,7 +62,7 @@ public class SiteDao {
         }
         
 	public final Site getSite(String name) {
-		final String sql = "SELECT PATH, TYPE FROM SITES WHERE NAME = ?";
+		final String sql = "SELECT ID, NAME, HOST, USERNAME, PASSWORD, LOG_PATH, LOG_TYPE, CONNECTION_TYPE FROM SITES WHERE NAME = ?";
 
 		try {
 			Connection c = dataSource.getConnection();
@@ -60,11 +70,20 @@ public class SiteDao {
 			ps.setString(1, name);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
-			final String path = rs.getString(1);
-			final String type = rs.getString(2);
-			ps.close();
 
-			return new Site(name, path, Parser.valueOf(type));
+			Site site = new Site(
+                            rs.getInt("ID"),
+                            rs.getString("NAME"), 
+                            rs.getString("HOST"), 
+                            rs.getString("USERNAME"), 
+                            rs.getString("PASSWORD"), 
+                            rs.getString("LOG_PATH"),  
+                            Parser.valueOf(rs.getString("LOG_TYPE")),  
+                            Connector.valueOf(rs.getString("CONNECTION_TYPE"))
+                        );
+                        rs.close();
+			ps.close();
+                        return site;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -91,24 +110,37 @@ public class SiteDao {
             
         }
         
-        public final Boolean addSite(String name, String path, String type) {
-            final String sql = "INSERT INTO SITES(NAME, PATH, TYPE) VALUES (?, ?, ?);";
+        public final Boolean addSite(
+                String name, 
+                String host, 
+                String userName, 
+                String password, 
+                String logPath, 
+                String logType, 
+                String connectionType) {
 
-		try {
-			Connection c = dataSource.getConnection();
-			PreparedStatement ps = c.prepareStatement(sql);
-			ps.setString(1, name);
-                        ps.setString(2, path);
-                        ps.setString(3, type);
-			int nb = ps.executeUpdate();
-			ps.close();
+            final String sql = "INSERT INTO SITES(name, host, username, password, log_path, log_type, connection_type) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?);";
 
-			return nb == 1;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+            try {
+                    Connection c = dataSource.getConnection();
+                    PreparedStatement ps = c.prepareStatement(sql);
+                    ps.setString(1, name);
+                    ps.setString(2, host);
+                    ps.setString(3, userName);
+                    ps.setString(4, password);
+                    ps.setString(5, logPath);
+                    ps.setString(6, logType);
+                    ps.setString(7, connectionType);
+                    
+                    int nb = ps.executeUpdate();
+                    ps.close();
 
-		return false;
-            
+                    return nb == 1;
+            } catch (SQLException e) {
+                    e.printStackTrace();
+            }
+
+            return false;
         }
 }
