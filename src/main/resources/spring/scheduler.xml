@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Application context definition for PetClinic Datasource.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context.xsd
+         http://www.springframework.org/schema/jdbc
+         http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+    <bean id="parseLogsTask" class="com.qos.monitoring.ParseLogsTask" />
+
+    <!-- Spring Quartz -->
+    <bean name="parseLogJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.qos.monitoring.ParseLogsJob" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="parseLogsTask" value-ref="parseLogsTask" />
+            </map>
+        </property>
+
+    </bean>
+
+    <!-- execute toutes les minutes -->
+    <bean id="cronTriggerDefault" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="parseLogJob" />
+        <property name="cronExpression" value="1 * * * * ?" />
+    </bean>
+
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="cronTriggerDefault" />
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

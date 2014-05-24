@@ -41,13 +41,33 @@
             <version>${org.springframework-version}</version>
         </dependency>
 
+        <!-- QuartzJobBean in spring-context-support.jar -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>3.1.2.RELEASE</version>
+        </dependency>
+        <!-- Spring + Quartz need transaction -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+
+         <!-- Quartz framework -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>1.8.6</version>
+        </dependency>
+
         <!-- AspectJ -->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
             <version>${org.aspectj-version}</version>
-        </dependency>	
-        
+        </dependency>
+
         <!-- db -->
         <dependency>
             <groupId>org.hsqldb</groupId>
@@ -132,7 +152,7 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
-        
+
         <dependency>
             <groupId>opensymphony</groupId>
             <artifactId>sitemesh</artifactId>
@@ -142,10 +162,10 @@
             <groupId>net.schmizz</groupId>
             <artifactId>sshj</artifactId>
             <version>0.9.0</version>
-        </dependency>                                       
+        </dependency>
 
     </dependencies>
-            
+
 
 
     <build>
