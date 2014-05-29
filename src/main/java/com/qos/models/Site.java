@@ -58,4 +58,8 @@ public class Site {
         return host;
     }
     
+    public String toString() {
+        return name;
+    }
+    
 }

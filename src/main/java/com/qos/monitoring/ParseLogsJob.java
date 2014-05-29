@@ -1,5 +1,7 @@
 package com.qos.monitoring;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
@@ -14,7 +16,11 @@ public class ParseLogsJob extends QuartzJobBean {
 	protected void executeInternal(JobExecutionContext context)
 			throws JobExecutionException {
 
-		parseLogsTask.getLog(context.getTrigger());
+            try {
+                parseLogsTask.getLog(context.getTrigger());
+            } catch (Exception ex) {
+                Logger.getLogger(ParseLogsJob.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
 
 }

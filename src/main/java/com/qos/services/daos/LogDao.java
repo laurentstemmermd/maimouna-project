@@ -67,7 +67,7 @@ public class LogDao {
 
         return null;
     }
-
+    
     public final boolean insert(Log log, String siteName) {
 
         Site site = siteDao.getSite(siteName);

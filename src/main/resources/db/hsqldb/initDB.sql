@@ -15,7 +15,8 @@ CREATE TABLE sites (
   password VARCHAR(30),
   log_path VARCHAR(500),
   log_type  VARCHAR(30),
-  connection_type  VARCHAR(30)
+  connection_type  VARCHAR(30),
+  log_foot_print  VARCHAR(300) DEFAULT NULL
 );
 CREATE INDEX sites_name ON sites (name);
 
