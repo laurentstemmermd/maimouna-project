@@ -1,6 +1,7 @@
 package com.qos.controllers;
 
 import com.qos.models.Site;
+import com.qos.models.Stat;
 import com.qos.services.daos.LogDao;
 import com.qos.services.daos.SiteDao;
 import javax.annotation.Resource;
@@ -29,6 +30,7 @@ public class SiteController {
             Site site = siteDao.getSite(name);
             model.addAttribute("site", site);
             model.addAttribute("logs", logDao.getAllLogs(name));
+            model.addAttribute("stat", logDao.getStat(name));
 
             return "site/index";
 	}

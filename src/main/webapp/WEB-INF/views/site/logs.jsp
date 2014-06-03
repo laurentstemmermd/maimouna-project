@@ -28,16 +28,3 @@
         </tbody>
     </table>
 </div>
-
-<script>
-    $( document ).ready(function() {
-        setTimeout(refresh, 10000);
-    });
-
-     function refresh() {
-         console.log( "ready!" );
-        window.location.reload(true);
-        setTimeout(refresh, 10000);
-     }
-     
-</script>

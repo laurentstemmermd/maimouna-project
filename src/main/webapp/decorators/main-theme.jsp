@@ -10,6 +10,7 @@
 <link href="/resources/css/main.css" rel="stylesheet" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <decorator:head />
 </head>
 <body>

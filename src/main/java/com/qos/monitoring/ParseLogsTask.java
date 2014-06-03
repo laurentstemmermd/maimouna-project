@@ -96,8 +96,9 @@ public class ParseLogsTask {
             DateTime dt = formatter.parseDateTime(nextLine[4]);
             
             Log log = new Log(nextLine[0], dt, LogStatus.valueOf(nextLine[1]), nextLine[2], nextLine[3]);
-            System.out.println(log);
-            logDao.insert(log, site.getName());
+
+            if(!logDao.exists(log, site.getName()))
+                logDao.insert(log, site.getName());
         }
         reader.close();
     }

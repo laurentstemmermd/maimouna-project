@@ -9,6 +9,7 @@ package com.qos.services.daos;
 import com.qos.models.Log;
 import com.qos.models.LogStatus;
 import com.qos.models.Site;
+import com.qos.models.Stat;
 import org.springframework.stereotype.Service;
 
 
@@ -20,7 +21,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.joda.time.DateTime;
 
 /**
@@ -66,6 +69,89 @@ public class LogDao {
         }
 
         return null;
+    }
+    
+    public final boolean deleteAll(Log log, String siteName) {
+
+        Site site = siteDao.getSite(siteName);
+        if(site == null) {
+            return false;
+        }
+
+        final String sql = "DELETE FROM logs WHERE SITE_ID = ?";
+
+        try {
+            Connection c = dataSource.getConnection();
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, site.getId());
+
+            int nb = ps.executeUpdate();
+            ps.close();
+
+            return nb == 1;
+        } catch (SQLException e) {
+                e.printStackTrace();
+        }
+
+        return false;
+    }
+    
+    public final Stat getStat(String siteName) {
+        Site site = siteDao.getSite(siteName);
+        if(site == null) {
+            return null;
+        }
+        
+        Map<LogStatus, Integer> statuses = new HashMap<LogStatus, Integer>();
+        
+        final String sql = "SELECT COUNT(0) as NB FROM LOGS WHERE SITE_ID = ?  AND STATUS = ? GROUP BY STATUS ";
+        for(LogStatus status : LogStatus.values()) {
+            try {
+                Connection c = dataSource.getConnection();
+                PreparedStatement ps = c.prepareStatement(sql);
+                ps.setInt(1, site.getId());
+                ps.setString(2, status.name());
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()) {
+                    statuses.put(status, rs.getInt("NB"));
+                }
+                rs.close();
+                ps.close();
+                c.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return new Stat(statuses);
+    }
+    
+    public final boolean exists(Log log, String siteName) {
+        Site site = siteDao.getSite(siteName);
+        if(site == null) {
+            return false;
+        }
+        
+        final String sql = "SELECT COUNT(0) as NB FROM LOGS "
+                + "WHERE SITE_ID = ?  AND SERVICE = ? AND EVENT_DATE = ? ";
+        try {
+            Connection c = dataSource.getConnection();
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, site.getId());
+            ps.setString(2, log.getService());
+            ps.setTimestamp(3, new Timestamp(log.getEventDate().toDate().getTime()));
+
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            int nb = rs.getInt("NB");
+            ps.close();
+
+            return nb >= 1;
+        } catch (SQLException e) {
+                e.printStackTrace();
+        }
+
+        return false;
     }
     
     public final boolean insert(Log log, String siteName) {

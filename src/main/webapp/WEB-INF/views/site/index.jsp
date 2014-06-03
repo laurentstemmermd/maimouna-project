@@ -39,3 +39,18 @@
 
 <jsp:include page="logs.jsp" />
 <jsp:include page="stats.jsp" />
+
+
+
+<script>
+    $( document ).ready(function() {
+        setTimeout(refresh, 10000);
+    });
+
+     function refresh() {
+         console.log( "ready!" );
+        window.location.reload(true);
+        setTimeout(refresh, 10000);
+     }
+     
+</script>
