@@ -24,15 +24,29 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 
 public class ParseLogsTask {
     
     @Resource
     private SiteDao siteDao;
-    
+
     @Resource
     private LogDao logDao;
-    
+
+    private MailSender mailSender;
+    private SimpleMailMessage templateMessage;
+
+    public void setMailSender(MailSender mailSender) {
+        this.mailSender = mailSender;
+    }
+
+    public void setTemplateMessage(SimpleMailMessage templateMessage) {
+        this.templateMessage = templateMessage;
+    }
+
     public void getLog(Trigger trigger) throws InterruptedException, FileNotFoundException, IOException {
         System.out.println(trigger.getName() + "# Next Fire Time: " + trigger.getNextFireTime());
         List<Site> lists = siteDao.getAllSites();
@@ -57,7 +71,24 @@ public class ParseLogsTask {
             }
         }
     }
-    
+
+    private void sendEmail(String email, Log log) {
+        // Create a thread safe "copy" of the template message and customize it
+        SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
+        msg.setTo(email);
+        msg.setText(
+                "Dear " + email
+                        + ", and error has been discovered. Here is the log : "
+                        + log);
+        try{
+            this.mailSender.send(msg);
+        }
+        catch(MailException ex) {
+            // simply log it and go on...
+            System.err.println(ex.getMessage());
+        }
+    }
+
     private String getFileFootPrint(String localLogPath) throws IOException {
         FileInputStream fis = new FileInputStream(new File(localLogPath));
         String md5 = org.apache.commons.codec.digest.DigestUtils.md5Hex(fis);
@@ -96,9 +127,13 @@ public class ParseLogsTask {
             DateTime dt = formatter.parseDateTime(nextLine[4]);
             
             Log log = new Log(nextLine[0], dt, LogStatus.valueOf(nextLine[1]), nextLine[2], nextLine[3]);
-
-            if(!logDao.exists(log, site.getName()))
+            
+            if(!logDao.exists(log, site.getName())) {
+                if(log.getStatus() == LogStatus.KO) {
+                    sendEmail("stemlaur2@gmail.com", log);
+                }
                 logDao.insert(log, site.getName());
+            }
         }
         reader.close();
     }
