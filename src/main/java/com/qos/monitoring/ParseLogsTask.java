@@ -29,7 +29,9 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
 public class ParseLogsTask {
-    
+
+    private static final String SUPPORT_EMAIL = "xxx@xxx.xxx";
+
     @Resource
     private SiteDao siteDao;
 
@@ -53,7 +55,7 @@ public class ParseLogsTask {
         System.out.println("Il y a " + lists.size() + " sites");
         for (Site site : lists) {
             String localLogPath = null;
-            
+
             try {
                 localLogPath = retrieveLog(site);
             } catch (Exception _e) {
@@ -95,7 +97,7 @@ public class ParseLogsTask {
         fis.close();
         return md5;
     }
-    
+
     private String retrieveLog(Site site) throws IOException {
         switch (site.getConnectionType()) {
             case FTP:
@@ -105,19 +107,19 @@ public class ParseLogsTask {
                 throw new UnsupportedOperationException("Type " + site.getConnectionType() + " not supported yet.");
         }
     }
-    
+
     private void parseLogs(Site site, String localLogPath) throws FileNotFoundException, IOException {
         switch (site.getLogType()) {
             case CSV:
                 System.out.println(site.getName() + " de type " + site.getLogType() + ", parsing...");
-                
+
                 parseCSVLogs(site, localLogPath);
                 break;
             default:
                 throw new UnsupportedOperationException("Type " + site.getLogType() + " not supported yet.");
         }
     }
-    
+
     private void parseCSVLogs(Site site, String localLogPath) throws FileNotFoundException, IOException {
         CSVReader reader = new CSVReader(new FileReader(localLogPath), ';');
         String[] nextLine;
@@ -125,47 +127,47 @@ public class ParseLogsTask {
         while ((nextLine = reader.readNext()) != null) {
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
             DateTime dt = formatter.parseDateTime(nextLine[4]);
-            
+
             Log log = new Log(nextLine[0], dt, LogStatus.valueOf(nextLine[1]), nextLine[2], nextLine[3]);
-            
+
             if(!logDao.exists(log, site.getName())) {
                 if(log.getStatus() == LogStatus.KO) {
-                    sendEmail("stemlaur2@gmail.com", log);
+                    sendEmail(SUPPORT_EMAIL, log);
                 }
                 logDao.insert(log, site.getName());
             }
         }
         reader.close();
     }
-    
+
     // https://help.ubuntu.com/10.04/serverguide/ftp-server.html
     private String retrieveLogWithFTP(Site site) throws IOException {
         String remotePath = site.getLogPath();
         String localPath = FileUtils.getTempDirectoryPath() + File.separator + site.getName() + "." + site.getLogType().toString().toLowerCase();
         System.out.println("Let's copy " + remotePath + " to " + localPath);
-        
+
         String server = site.getHost();
         int port = 21;
         String user = site.getUserName();
         String pass = site.getPassword();
-        
+
         FTPClient ftpClient = new FTPClient();
         try {
-            
+
             ftpClient.connect(server, port);
             ftpClient.login(user, pass);
             ftpClient.enterLocalPassiveMode();
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-            
+
             File downloadFile1 = new File(localPath);
             OutputStream local = new BufferedOutputStream(new FileOutputStream(downloadFile1));
             boolean success = ftpClient.retrieveFile(remotePath, local);
             local.close();
-            
+
             if (success) {
                 System.out.println("File has been downloaded successfully.");
             }
-            
+
         } catch (IOException ex) {
             System.out.println("Error: " + ex.getMessage());
             ex.printStackTrace();
@@ -179,10 +181,10 @@ public class ParseLogsTask {
                 ex.printStackTrace();
             }
         }
-        
+
         return localPath;
     }
-    
+
     private void parseLog(String logFile) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
