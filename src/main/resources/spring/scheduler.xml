@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-    Application context definition for PetClinic Datasource.
--->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
@@ -22,7 +19,8 @@
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 	<property name="host" value="smtp.gmail.com" />
 	<property name="port" value="587" />
-	<property name="username" value="GMAILEMAILTOSENDEMAILS" />
+    <!-- IL FAUT CHANGER AVEC UN VRAI COMPTE GMAIL POUR POUVOIR ENVOYER DES EMAILS -->
+	<property name="username" value="xxxx@gmail.com" />
 	<property name="password" value="PASSWORD" />
 
 	<property name="javaMailProperties">
@@ -33,13 +31,11 @@
 	</property>
     </bean>
 
-    <!-- this is a template message that we can pre-load with default state -->
     <bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
         <property name="from" value="alerte@qos.com"/>
         <property name="subject" value="An error happen"/>
     </bean>
 
-    <!-- Spring Quartz -->
     <bean name="parseLogJob" class="org.springframework.scheduling.quartz.JobDetailBean">
         <property name="jobClass" value="com.qos.monitoring.ParseLogsJob" />
         <property name="jobDataAsMap">
@@ -50,7 +46,6 @@
 
     </bean>
 
-    <!-- execute toutes les minutes -->
     <bean id="cronTriggerDefault" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="parseLogJob" />
         <property name="cronExpression" value="1/10 * * * * ?" />
@@ -63,6 +58,4 @@
             </list>
         </property>
     </bean>
-
-
 </beans>
